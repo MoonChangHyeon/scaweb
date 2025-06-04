@@ -1,0 +1,77 @@
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8">
+  <title>Fortify SCA 도우미</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 2em;
+      display: flex;
+      justify-content: center;
+    }
+    #container {
+      text-align: center;
+    }
+    .result { margin-top: 1em; }
+  </style>
+</head>
+<body>
+  <div id="container">
+    <h1>Fortify SCA 기능 선택</h1>
+    <select id="lang" onchange="search()">
+      <option value="">언어 선택</option>
+      <option value="java">Java</option>
+      <option value="python">Python</option>
+      <option value="c">C</option>
+      <option value="c++">C++</option>
+      <option value="c#">C#</option>
+      <option value="ios">iOS</option>
+    </select>
+    <div id="results" class="result"></div>
+    <button onclick="generate()">스크립트 생성</button>
+    <pre id="script"></pre>
+  </div>
+<script>
+let selected = [];
+function search() {
+  const lang = document.getElementById('lang').value;
+  if(!lang) {
+    document.getElementById('results').innerHTML = '';
+    selected = [];
+    return;
+  }
+  fetch('/search?lang=' + encodeURIComponent(lang))
+    .then(r => r.json())
+    .then(data => {
+      const div = document.getElementById('results');
+      div.innerHTML = '';
+      data.forEach(f => {
+        const chk = document.createElement('input');
+        chk.type = 'checkbox';
+        chk.value = f.name;
+        chk.onchange = ev => {
+          if(ev.target.checked) selected.push(ev.target.value);
+          else selected = selected.filter(v => v !== ev.target.value);
+        };
+        div.appendChild(chk);
+        const label = document.createElement('span');
+        label.textContent = `${f.name} - ${f.description}`;
+        div.appendChild(label);
+        div.appendChild(document.createElement('br'));
+      });
+    });
+}
+function generate() {
+  fetch('/generate', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({features: selected})
+  }).then(r => r.json())
+    .then(data => {
+      document.getElementById('script').textContent = data.script;
+    });
+}
+</script>
+</body>
+</html>

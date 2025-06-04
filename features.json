@@ -1,0 +1,38 @@
+[
+  {
+    "name": "clean",
+    "description": "빌드 ID 데이터를 정리",
+    "script": "sourceanalyzer -b <build_id> -clean",
+    "languages": ["java", "python", "c", "c++", "c#", "ios"]
+  },
+  {
+    "name": "translate_java",
+    "description": "Java 소스 파일 번역",
+    "script": "sourceanalyzer -b <build_id> <source_files>",
+    "languages": ["java"]
+  },
+  {
+    "name": "scan",
+    "description": "코드를 스캔하고 FPR 생성",
+    "script": "sourceanalyzer -b <build_id> -scan -f <results.fpr>",
+    "languages": ["java", "python", "c", "c++", "c#", "ios"]
+  },
+  {
+    "name": "classpath",
+    "description": "번역 시 클래스패스 추가",
+    "script": "-cp <classpath>",
+    "languages": ["java"]
+  },
+  {
+    "name": "java_version",
+    "description": "Java 버전 지정",
+    "script": "-source 1.8",
+    "languages": ["java"]
+  },
+  {
+    "name": "logfile",
+    "description": "로그 파일 작성",
+    "script": "-logfile <file>",
+    "languages": ["java", "python", "c", "c++", "c#", "ios"]
+  }
+]
