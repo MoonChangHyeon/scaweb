@@ -1,0 +1,32 @@
+[
+  {
+    "name": "clean",
+    "description": "Clean build ID data",
+    "script": "sourceanalyzer -b <build_id> -clean"
+  },
+  {
+    "name": "translate_java",
+    "description": "Translate Java source files",
+    "script": "sourceanalyzer -b <build_id> <source_files>"
+  },
+  {
+    "name": "scan",
+    "description": "Scan translated code and generate FPR",
+    "script": "sourceanalyzer -b <build_id> -scan -f <results.fpr>"
+  },
+  {
+    "name": "classpath",
+    "description": "Add classpath for translation",
+    "script": "-cp <classpath>"
+  },
+  {
+    "name": "java_version",
+    "description": "Specify Java version for translation",
+    "script": "-source 1.8"
+  },
+  {
+    "name": "logfile",
+    "description": "Write log output to file",
+    "script": "-logfile <file>"
+  }
+]
